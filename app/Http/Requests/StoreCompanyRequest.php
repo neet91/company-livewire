@@ -17,7 +17,7 @@ class StoreCompanyRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:company-alpine,email'],
             'website' => ['nullable', 'url', 'max:255'],
-            'logo' => ['required', 'image', 'max:4096'],
+            'logo' => ['nullable', 'image', 'max:4096'],
         ];
     }
 }

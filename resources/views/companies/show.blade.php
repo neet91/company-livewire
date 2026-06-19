@@ -10,7 +10,13 @@
             <div class="grid gap-8 p-6 lg:grid-cols-[260px_1fr]">
                 <div class="flex flex-col items-center gap-4">
                     <div class="h-40 w-40 overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
-                        <img src="{{ $company->logoUrl() }}" alt="{{ $company->name }}" class="h-full w-full object-cover">
+                        @if ($company->logoUrl())
+                            <img src="{{ $company->logoUrl() }}" alt="{{ $company->name }}" class="h-full w-full object-cover">
+                        @else
+                            <div class="flex h-full w-full items-center justify-center text-4xl font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+                                {{ substr($company->name, 0, 1) }}
+                            </div>
+                        @endif
                     </div>
                     <div class="flex gap-3">
                         <a href="{{ route('companies.edit', $company) }}" class="rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200" wire:navigate>
@@ -49,7 +55,9 @@
 
                         <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-950/40 sm:col-span-2">
                             <dt class="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">{{ __('Stored Logo') }}</dt>
-                            <dd class="mt-2 text-sm font-medium text-zinc-900 dark:text-zinc-50">{{ $company->logo }}</dd>
+                            <dd class="mt-2 text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                                {{ $company->logo ?? __('No logo uploaded') }}
+                            </dd>
                         </div>
                     </dl>
                 </div>

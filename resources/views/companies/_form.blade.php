@@ -73,9 +73,8 @@
                         accept="image/*"
                         x-on:change="previewImage"
                         class="block w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-zinc-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-zinc-700 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:file:bg-white dark:file:text-zinc-900 dark:hover:file:bg-zinc-200"
-                        {{ $isEdit ? '' : 'required' }}
                     >
-                    <p class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">{{ __('Uploaded logos are normalized to 100x100 PNG files in public storage.') }}</p>
+                    <p class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">{{ __('Optional. Uploaded logos are normalized to 100x100 PNG files in public storage.') }}</p>
                     @error('logo')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror

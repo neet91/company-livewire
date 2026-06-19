@@ -34,7 +34,9 @@ class CompanyController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['logo'] = $this->storeLogo($request->file('logo'));
+        $validated['logo'] = $request->hasFile('logo')
+            ? $this->storeLogo($request->file('logo'))
+            : null;
 
         CompanyAlpine::create($validated);
 

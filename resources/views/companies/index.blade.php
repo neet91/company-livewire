@@ -42,7 +42,13 @@
                                 <tr class="align-top">
                                     <td class="px-6 py-4">
                                         <div class="h-16 w-16 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
-                                            <img src="{{ $company->logoUrl() }}" alt="{{ $company->name }}" class="h-full w-full object-cover">
+                                            @if ($company->logoUrl())
+                                                <img src="{{ $company->logoUrl() }}" alt="{{ $company->name }}" class="h-full w-full object-cover">
+                                            @else
+                                                <div class="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+                                                    {{ substr($company->name, 0, 1) }}
+                                                </div>
+                                            @endif
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
