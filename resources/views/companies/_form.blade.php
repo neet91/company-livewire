@@ -101,13 +101,16 @@
         </div>
     </div>
 
-    <div class="flex items-center justify-between">
-        <a href="{{ route('companies.index') }}" class="text-sm font-semibold text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100" wire:navigate>
-            {{ __('Back to companies') }}
-        </a>
-
+    {{-- <div class="flex items-center justify-between"> --}}
+    <div>
         <button type="submit" class="rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
             {{ $isEdit ? __('Update Company') : __('Create Company') }}
         </button>
+
+        <div class="mt-4 ml-4">
+        <a href="{{ route('companies.index') }}" class="text-sm font-semibold text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100" wire:navigate>
+            {{ __('Back to companies') }}
+        </a>
+        </div>
     </div>
 </form>

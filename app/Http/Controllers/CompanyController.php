@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\CompanyAlpine;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -30,9 +30,9 @@ class CompanyController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreCompanyRequest $request): RedirectResponse
     {
-        $validated = $this->validateCompany($request);
+        $validated = $request->validated();
 
         $validated['logo'] = $this->storeLogo($request->file('logo'));
 
@@ -52,9 +52,9 @@ class CompanyController extends Controller
         return view('companies.edit', compact('company'));
     }
 
-    public function update(Request $request, CompanyAlpine $company): RedirectResponse
+    public function update(UpdateCompanyRequest $request, CompanyAlpine $company): RedirectResponse
     {
-        $validated = $this->validateCompany($request, $company);
+        $validated = $request->validated();
 
         if ($request->hasFile('logo')) {
             $validated['logo'] = $this->storeLogo($request->file('logo'));
@@ -76,24 +76,6 @@ class CompanyController extends Controller
 
         return to_route('companies.index')
             ->with('success', __('Company deleted successfully.'));
-    }
-
-    /**
-     * @return array{name:string,email:string,website?:string|null,logo?:string|null}
-     */
-    protected function validateCompany(Request $request, ?CompanyAlpine $company = null): array
-    {
-        return $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                Rule::unique('company-alpine', 'email')->ignore($company?->getKey()),
-            ],
-            'website' => ['nullable', 'url', 'max:255'],
-            'logo' => [$company ? 'nullable' : 'required', 'image', 'max:4096'],
-        ]);
     }
 
     protected function storeLogo(UploadedFile $file): string
