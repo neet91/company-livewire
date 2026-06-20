@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\CompanyAlpine;
+use App\Models\Employee;
+
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
@@ -22,6 +23,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'admin@admin.com',
         // ]);
 
-        CompanyAlpine::factory(10)->create();
+        $companies = CompanyAlpine::factory(10)->create();
+
+        Employee::factory()
+            ->count(25)
+            ->state(fn () => [
+                'company_id' => $companies->random()->id,
+            ])
+            ->create();
     }
 }
