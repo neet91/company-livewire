@@ -13,12 +13,22 @@ class EmployeeController extends Controller
 {
     public function index(): View
     {
+        $search = request()->string('search')->trim()->toString();
+
         $employees = Employee::query()
+             ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%");
+                });
+            })
             ->with('company')
             ->latest()
             ->paginate(10);
 
-        return view('employees.index', compact('employees'));
+        return view('employees.index', compact('employees', 'search'));
     }
 
     public function create(): View
