@@ -1,4 +1,4 @@
-<x-layouts::app :title="__('Companies')">
+<x-layouts::app :title="__('Employees')">
     <style>
         [x-cloak] { display: none !important; }
     </style>
@@ -6,28 +6,28 @@
     <div x-data="{ deleteTarget: null, deleteName: '' }" class="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
         <div class="flex flex-col gap-4 rounded-3xl border border-zinc-200 bg-white/90 p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 lg:flex-row lg:items-end lg:justify-between">
             <div>
-                <p class="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">{{ __('Company Directory') }}</p>
-                <h1 class="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">{{ __('Companies') }}</h1>
+                <p class="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">{{ __('Employee Directory') }}</p>
+                <h1 class="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">{{ __('Employees') }}</h1>
                 {{-- <p class="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
-                    {{ __('Create and manage company records, including a resized 100x100 logo stored in the public disk.') }}
+                    {{ __('Create and manage employee records tied to a company, with contact details and a clean directory view.') }}
                 </p> --}}
             </div>
 
-            <a href="{{ route('companies.create') }}" class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200" wire:navigate>
-                {{ __('New Company') }}
+            <a href="{{ route('employees.create') }}" class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200" wire:navigate>
+                {{ __('New Employee') }}
             </a>
         </div>
 
-        <form method="GET" action="{{ route('companies.index') }}" class="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+         <form method="GET" action="{{ route('employees.index') }}" class="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
             <div class="flex flex-col gap-3 md:flex-row md:items-end">
                 <div class="flex-1">
-                    <label for="search" class="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ __('Search companies') }}</label>
+                    <label for="search" class="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ __('Search employees') }}</label>
                     <input
                         id="search"
                         name="search"
                         type="text"
                         value="{{ $search }}"
-                        placeholder="{{ __('Search by name, email, or website') }}"
+                        placeholder="{{ __('Search by name, email, or phone number') }}"
                         class="block w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:focus:border-zinc-300 dark:focus:ring-zinc-700"
                     >
                 </div>
@@ -38,7 +38,7 @@
                     </button>
 
                     @if ($search !== '')
-                        <a href="{{ route('companies.index') }}" class="rounded-full border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800" wire:navigate>
+                        <a href="{{ route('employees.index') }}" class="rounded-full border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800" wire:navigate>
                             {{ __('Reset') }}
                         </a>
                     @endif
@@ -53,61 +53,45 @@
         @endif
 
         <div class="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
-            @if ($companies->count())
+            @if ($employees->count())
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-zinc-200 text-left text-sm dark:divide-zinc-700">
                         <thead class="bg-zinc-50 text-xs uppercase tracking-[0.2em] text-zinc-500 dark:bg-zinc-950/40 dark:text-zinc-400">
                             <tr>
-                                <th class="px-6 py-4">{{ __('Logo') }}</th>
-                                <th class="px-6 py-4">{{ __('Name') }}</th>
+                                <th class="px-6 py-4">{{ __('First Name') }}</th>
+                                <th class="px-6 py-4">{{ __('Last Name') }}</th>
+                                <th class="px-6 py-4">{{ __('Company') }}</th>
                                 <th class="px-6 py-4">{{ __('Email') }}</th>
-                                <th class="px-6 py-4">{{ __('Website') }}</th>
+                                <th class="px-6 py-4">{{ __('Phone') }}</th>
                                 <th class="px-6 py-4">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            @foreach ($companies as $company)
+                            @foreach ($employees as $employee)
                                 <tr class="align-top">
                                     <td class="px-6 py-4">
-                                        <div class="h-16 w-16 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
-                                            @if ($company->logoUrl())
-                                                <img src="{{ $company->logoUrl() }}" alt="{{ $company->name }}" class="h-full w-full object-cover">
-                                            @else
-                                                <div class="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
-                                                    {{ substr($company->name, 0, 1) }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <a href="{{ route('companies.show', $company) }}" class="font-semibold text-zinc-900 hover:underline dark:text-zinc-50" wire:navigate>
-                                            {{ $company->name }}
+                                        <a href="{{ route('employees.show', $employee) }}" class="font-semibold text-zinc-900 hover:underline dark:text-zinc-50" wire:navigate>
+                                            {{ $employee->first_name }}
                                         </a>
                                     </td>
+                                    <td class="px-6 py-4 text-zinc-600 dark:text-zinc-300">{{ $employee->last_name }}</td>
                                     <td class="px-6 py-4 text-zinc-600 dark:text-zinc-300">
-                                        @if($company->email)
-                                            {{ $company->email }}
-                                        @else
-                                            <span class="text-zinc-400">{{ __('No email') }}</span>
-                                        @endif
+                                        {{ $employee->company?->name ?? __('No company') }}
                                     </td>
-                                    <td class="px-6 py-4">
-                                        @if ($company->website)
-                                            <a href="{{ $company->website }}" target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:underline dark:text-sky-400">
-                                                {{ $company->website }}
-                                            </a>
-                                        @else
-                                            <span class="text-zinc-400">{{ __('No website') }}</span>
-                                        @endif
+                                    <td class="px-6 py-4 text-zinc-600 dark:text-zinc-300">
+                                        {{ $employee->email ?? __('No email') }}
+                                    </td>
+                                    <td class="px-6 py-4 text-zinc-600 dark:text-zinc-300">
+                                        {{ $employee->phone ?? __('No phone') }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex flex-wrap gap-2">
-                                            <a href="{{ route('companies.edit', $company) }}" class="rounded-full border border-zinc-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800" wire:navigate>
+                                            <a href="{{ route('employees.edit', $employee) }}" class="rounded-full border border-zinc-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800" wire:navigate>
                                                 {{ __('Edit') }}
                                             </a>
                                             <button
                                                 type="button"
-                                                x-on:click="deleteTarget = @js(route('companies.destroy', $company)); deleteName = @js($company->name)"
+                                                x-on:click="deleteTarget = @js(route('employees.destroy', $employee)); deleteName = @js($employee->fullName())"
                                                 class="rounded-full border border-red-200 bg-red-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-red-700 transition hover:bg-red-100 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-200"
                                             >
                                                 {{ __('Delete') }}
@@ -121,20 +105,18 @@
                 </div>
 
                 <div class="border-t border-zinc-200 px-6 py-4 dark:border-zinc-700">
-                    {{ $companies->links() }}
+                    {{ $employees->links() }}
                 </div>
             @else
                 <div class="flex flex-col items-start gap-4 px-6 py-16">
                     <div class="max-w-xl">
-                        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
-                            {{ $search !== '' ? __('No companies matched your search') : __('No companies yet') }}
-                        </h2>
+                        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ __('No employees yet') }}</h2>
                         <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                            {{ $search !== '' ? __('Try a different name, email, or website.') : __('Add the first company to start building your directory.') }}
+                            {{ __('Add the first employee to start building your staff directory.') }}
                         </p>
                     </div>
-                    <a href="{{ route('companies.create') }}" class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200" wire:navigate>
-                        {{ __('Create Company') }}
+                    <a href="{{ route('employees.create') }}" class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200" wire:navigate>
+                        {{ __('Create Employee') }}
                     </a>
                 </div>
             @endif
@@ -143,10 +125,10 @@
         <div x-cloak x-show="deleteTarget" class="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div class="absolute inset-0 bg-zinc-950/70" x-on:click="deleteTarget = null"></div>
             <div class="relative w-full max-w-lg rounded-3xl border border-zinc-200 bg-white p-6 shadow-2xl dark:border-zinc-700 dark:bg-zinc-900">
-                <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ __('Delete company?') }}</h2>
+                <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ __('Delete employee?') }}</h2>
                 <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                     <span x-text="deleteName"></span>
-                    {{ __('will be permanently removed, along with its stored logo.') }}
+                    {{ __('will be permanently removed from the directory.') }}
                 </p>
 
                 <form method="POST" :action="deleteTarget" class="mt-6 flex items-center justify-end gap-3">

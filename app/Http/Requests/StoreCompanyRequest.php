@@ -15,7 +15,7 @@ class StoreCompanyRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:company-alpine,email'],
+            'email' => ['nullable', 'email', 'max:255', 'unique:company-alpine,email'],
             'website' => ['nullable', 'url', 'max:255'],
             'logo' => ['nullable', 'image', 'max:4096'],
         ];

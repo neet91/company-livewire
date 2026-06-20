@@ -16,11 +16,21 @@ class CompanyController extends Controller
 {
     public function index(): View
     {
-        $companies = CompanyAlpine::query()
-            ->latest()
-            ->paginate(10);
+        $search = request()->string('search')->trim()->toString();
 
-        return view('companies.index', compact('companies'));
+        $companies = CompanyAlpine::query()
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('website', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('companies.index', compact('companies', 'search'));
     }
 
     public function create(): View
