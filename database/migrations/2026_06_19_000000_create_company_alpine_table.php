@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('company-alpine', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->string('website')->nullable();
             $table->string('logo')->nullable();
             $table->timestamps();
