@@ -18,6 +18,34 @@
             </a>
         </div>
 
+        <form method="GET" action="{{ route('companies.index') }}" class="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+            <div class="flex flex-col gap-3 md:flex-row md:items-end">
+                <div class="flex-1">
+                    <label for="search" class="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ __('Search companies') }}</label>
+                    <input
+                        id="search"
+                        name="search"
+                        type="text"
+                        value="{{ $search }}"
+                        placeholder="{{ __('Search by name, email, or website') }}"
+                        class="block w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:focus:border-zinc-300 dark:focus:ring-zinc-700"
+                    >
+                </div>
+
+                <div class="flex gap-3">
+                    <button type="submit" class="rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
+                        {{ __('Search') }}
+                    </button>
+
+                    @if ($search !== '')
+                        <a href="{{ route('companies.index') }}" class="rounded-full border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800" wire:navigate>
+                            {{ __('Reset') }}
+                        </a>
+                    @endif
+                </div>
+            </div>
+        </form>
+
         @if (session('success'))
             <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-200">
                 {{ session('success') }}
@@ -98,9 +126,11 @@
             @else
                 <div class="flex flex-col items-start gap-4 px-6 py-16">
                     <div class="max-w-xl">
-                        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{{ __('No companies yet') }}</h2>
+                        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+                            {{ $search !== '' ? __('No companies matched your search') : __('No companies yet') }}
+                        </h2>
                         <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                            {{ __('Add the first company to start building your directory.') }}
+                            {{ $search !== '' ? __('Try a different name, email, or website.') : __('Add the first company to start building your directory.') }}
                         </p>
                     </div>
                     <a href="{{ route('companies.create') }}" class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200" wire:navigate>
