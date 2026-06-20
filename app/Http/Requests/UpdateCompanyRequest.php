@@ -19,7 +19,7 @@ class UpdateCompanyRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
-                'required',
+                'nullable',
                 'email',
                 'max:255',
                 Rule::unique('company-alpine', 'email')->ignore($companyId),

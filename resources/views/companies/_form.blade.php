@@ -41,7 +41,6 @@
                         name="email"
                         type="email"
                         value="{{ old('email', $company->email ?? '') }}"
-                        required
                         class="block w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:focus:border-zinc-300 dark:focus:ring-zinc-700"
                     >
                     @error('email')
