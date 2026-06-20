@@ -8,9 +8,9 @@
             <div>
                 <p class="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">{{ __('Company Directory') }}</p>
                 <h1 class="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">{{ __('Companies') }}</h1>
-                <p class="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
+                {{-- <p class="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
                     {{ __('Create and manage company records, including a resized 100x100 logo stored in the public disk.') }}
-                </p>
+                </p> --}}
             </div>
 
             <a href="{{ route('companies.create') }}" class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200" wire:navigate>
@@ -56,7 +56,13 @@
                                             {{ $company->name }}
                                         </a>
                                     </td>
-                                    <td class="px-6 py-4 text-zinc-600 dark:text-zinc-300">{{ $company->email }}</td>
+                                    <td class="px-6 py-4 text-zinc-600 dark:text-zinc-300">
+                                        @if($company->email)
+                                            {{ $company->email }}
+                                        @else
+                                            <span class="text-zinc-400">{{ __('No email') }}</span>
+                                        @endif
+                                    </td>
                                     <td class="px-6 py-4">
                                         @if ($company->website)
                                             <a href="{{ $company->website }}" target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:underline dark:text-sky-400">

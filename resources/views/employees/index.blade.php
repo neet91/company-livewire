@@ -8,9 +8,9 @@
             <div>
                 <p class="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">{{ __('Employee Directory') }}</p>
                 <h1 class="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">{{ __('Employees') }}</h1>
-                <p class="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
+                {{-- <p class="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
                     {{ __('Create and manage employee records tied to a company, with contact details and a clean directory view.') }}
-                </p>
+                </p> --}}
             </div>
 
             <a href="{{ route('employees.create') }}" class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200" wire:navigate>
