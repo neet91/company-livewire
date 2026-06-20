@@ -9,6 +9,7 @@ test('login screen can be rendered', function () {
     $response->assertOk();
 });
 
+//NEW
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
@@ -19,7 +20,8 @@ test('users can authenticate using the login screen', function () {
 
     $response
         ->assertSessionHasNoErrors()
-        ->assertRedirect(route('dashboard', absolute: false));
+        // ->assertRedirect(route('dashboard', absolute: false));
+        ->assertRedirect(route('companies.index', absolute: false));
 
     $this->assertAuthenticated();
 });
