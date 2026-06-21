@@ -20,17 +20,17 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Admin',
+            'name' => 'Endministrator',
             'email' => 'admin@admin.com',
         ]);
 
-        // $companies = CompanyAlpine::factory(10)->create();
+        $companies = CompanyAlpine::factory(12)->create();
 
-        // Employee::factory()
-        //     ->count(25)
-        //     ->state(fn () => [
-        //         'company_id' => $companies->random()->id,
-        //     ])
-        //     ->create();
+        Employee::factory()
+            ->count(20)
+            ->state(fn () => [
+                'company_id' => $companies->random()->id,
+            ])
+            ->create();
     }
 }

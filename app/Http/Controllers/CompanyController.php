@@ -8,9 +8,9 @@ use App\Models\CompanyAlpine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
-use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
@@ -36,7 +36,7 @@ class CompanyController extends Controller
     public function create(): View
     {
         return view('companies.create', [
-            'company' => new CompanyAlpine(),
+            'company' => new CompanyAlpine,
         ]);
     }
 
@@ -56,7 +56,11 @@ class CompanyController extends Controller
 
     public function show(CompanyAlpine $company): View
     {
-        return view('companies.show', compact('company'));
+        $employees = $company->employees()
+            ->latest()
+            ->get();
+
+        return view('companies.show', compact('company', 'employees'));
     }
 
     public function edit(CompanyAlpine $company): View
