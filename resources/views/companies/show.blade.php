@@ -53,15 +53,76 @@
                             </dd>
                         </div>
 
-                        <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-950/40 sm:col-span-2">
+                        {{-- <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-950/40 sm:col-span-2">
                             <dt class="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">{{ __('Stored Logo') }}</dt>
                             <dd class="mt-2 text-sm font-medium text-zinc-900 dark:text-zinc-50">
                                 {{ $company->logo ?? __('No logo uploaded') }}
                             </dd>
-                        </div>
+                        </div> --}}
                     </dl>
                 </div>
             </div>
+        </div>
+
+        <div class="mt-6 overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+            <div class="flex flex-col gap-4 border-b border-zinc-200 p-6 dark:border-zinc-700 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">{{ __('Employee Details') }}</p>
+                    <h2 class="mt-2 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+                        {{ trans_choice('{0} No employees|{1} :count employee|[2,*] :count employees', $employees->count()) }}
+                    </h2>
+                </div>
+
+                {{-- <a href="{{ route('employees.create') }}" class="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200" wire:navigate>
+                    {{ __('New Employee') }}
+                </a> --}}
+            </div>
+
+            @if ($employees->count())
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-zinc-200 text-left text-sm dark:divide-zinc-700">
+                        <thead class="bg-zinc-50 text-xs uppercase tracking-[0.2em] text-zinc-500 dark:bg-zinc-950/40 dark:text-zinc-400">
+                            <tr>
+                                <th class="px-6 py-4">{{ __('First Name') }}</th>
+                                <th class="px-6 py-4">{{ __('Last Name') }}</th>
+                                <th class="px-6 py-4">{{ __('Email') }}</th>
+                                <th class="px-6 py-4">{{ __('Phone') }}</th>
+                                {{-- <th class="px-6 py-4">{{ __('Actions') }}</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            @foreach ($employees as $employee)
+                                <tr class="align-top">
+                                    <td class="px-6 py-4">
+                                        {{-- <a href="{{ route('employees.show', $employee) }}" class="font-semibold text-zinc-900 hover:underline dark:text-zinc-50" wire:navigate> --}}
+                                            {{ $employee->first_name }}
+                                        {{-- </a> --}}
+                                    </td>
+                                    <td class="px-6 py-4 text-zinc-600 dark:text-zinc-300">{{ $employee->last_name }}</td>
+                                    <td class="px-6 py-4 text-zinc-600 dark:text-zinc-300">
+                                        {{ $employee->email ?? __('No email') }}
+                                    </td>
+                                    <td class="px-6 py-4 text-zinc-600 dark:text-zinc-300">
+                                        {{ $employee->phone ?? __('No phone') }}
+                                    </td>
+                                    {{-- <td class="px-6 py-4">
+                                        <a href="{{ route('employees.edit', $employee) }}" class="rounded-full border border-zinc-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800" wire:navigate>
+                                            {{ __('Edit') }}
+                                        </a>
+                                    </td> --}}
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="px-6 py-12">
+                    <h3 class="text-lg font-semibold text-zinc-900 dark:text-zinc-50">{{ __('No employees yet') }}</h3>
+                    <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                        {{ __('Employees assigned to this company will appear here.') }}
+                    </p>
+                </div>
+            @endif
         </div>
     </div>
 </x-layouts::app>
