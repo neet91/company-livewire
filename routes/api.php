@@ -2,13 +2,16 @@
 
 use App\Http\Resources\CompanyResource;
 use App\Models\CompanyAlpine;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/companies/{company}', function (CompanyAlpine $company) {
     return new CompanyResource(
         $company->load('employees')->loadCount('employees')
     );
+})->missing(function () {
+    return response()->json([
+        'message' => 'Record not found',
+    ], 404);
 });
 
 // Route::get('/user', function (Request $request) {
