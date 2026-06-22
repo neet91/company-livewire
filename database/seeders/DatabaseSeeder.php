@@ -19,10 +19,18 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Endministrator',
-            'email' => 'admin@admin.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Endministrator',
+        //     'email' => 'admin@admin.com',
+        // ]);
+
+        User::firstOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'Endministrator',
+                'password' => bcrypt('password'),
+            ]
+        );
 
         $companies = CompanyAlpine::factory(12)->create();
 
